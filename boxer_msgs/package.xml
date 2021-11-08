@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>boxer_msgs</name>
+  <version>0.1.0</version>
+  <description>Low-level platform messages for BOXER.</description>
+  <maintainer email="civerachb@clearpathrobotics.com">Chris Iverach-Brereton</maintainer>
+  <author email="dniewinski@clearpathrobotics.com">Dave Niewinski</author>
+  <author email="mpurvis@clearpath.ai">Mike Purvis</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+</package>

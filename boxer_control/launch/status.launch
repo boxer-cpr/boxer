@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="robot_state_aggregator" type="state_aggregator_node" name="state_aggregator_node" respawn="true"
+        respawn_delay="5.0" />
+</launch>

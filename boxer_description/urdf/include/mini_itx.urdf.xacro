@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find boxer_description)/urdf/include/antenna.urdf.xacro" />
+
+  <xacro:macro name="mini_itx" params="prefix parent *origin">
+    <link name="${prefix}_base_link">
+      <visual>
+        <geometry>
+          <box size="0.22 0.195 0.08" />
+        </geometry>
+        <origin xyz="0 0 0.04" rpy="0 0 0" />
+        <material name="Boxer_Black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.22 0.195 0.08" />
+        </geometry>
+        <origin xyz="0 0 0.04" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${prefix}_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}_base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+    <gazebo reference="${prefix}_base_link">
+      <material>Gazebo/Black</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <xacro:wifi_antenna prefix="wifi" parent="${prefix}_base_link">
+      <origin xyz="-0.11 0.0805 0.065" rpy="${-pi/2} 0 ${pi/2}" />
+    </xacro:wifi_antenna>
+  </xacro:macro>
+</robot>

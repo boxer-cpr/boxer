@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!--
+    A standard wireless/bluetooth antenna with a hinge joint.
+    The antenna extends from the Z axis of its parent link
+    The hinge operates about the X axis
+
+    Common useful transformations, assuming the parent link is base_link:
+      - top-mounted antenna, bent forward  :: 0 0 pi/2
+      - top-mounted antenna, bent backward :: 0 0 -pi/2
+      - top-mounted, bent right            :: 0 0 0
+      - top-mounted, bent left             :: 0 0 pi
+
+      - front-mounted, bent upward         :: -pi/2 0 -pi/2
+      - front-mounted, bent right          :: 0 -pi/2 pi
+      - front-mounted, bent left           :: -pi/2 0 -pi/2
+
+      - rear-mounted, bent upward          :: -pi/2 0 pi/2
+      - rear-mounted, bent right           :: 0 -pi/2 0
+      - rear-mounted, bent left            :: 0 pi/2 pi
+  -->
+  <xacro:macro name="wifi_antenna" params="prefix parent angle:=1.57079632679 length:=0.17 *origin">
+    <link name="${prefix}_antenna_base_link">
+      <visual>
+        <geometry>
+          <cylinder radius="0.0065" length="0.035" />
+        </geometry>
+        <origin xyz="0 0 0.0175" rpy="0 0 0" />
+        <material name="Boxer_Black" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.0065" length="0.035" />
+        </geometry>
+        <origin xyz="0 0 0.0175" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${prefix}_antenna_base_link">
+      <material>Gazebo/Black</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <link name="${prefix}_antenna_hinge_link" />
+
+    <link name="${prefix}_antenna_outer_segment">
+      <visual>
+        <geometry>
+          <cylinder radius="0.0065" length="0.1" />
+        </geometry>
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <material name="Boxer_Black" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.0065" length="0.1" />
+        </geometry>
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${prefix}_antenna_outer_segment">
+      <material>Gazebo/Black</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <link name="${prefix}_antenna_inner_segment">
+      <visual>
+        <geometry>
+          <cylinder radius="0.0035" length="${length}" />
+        </geometry>
+        <origin xyz="0 0 ${length/2}" rpy="0 0 0" />
+        <material name="Boxer_Black" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.0035" length="${length}" />
+        </geometry>
+        <origin xyz="0 0 ${length/2}" rpy="0 0 0" />
+      </collision>
+    </link>
+    <gazebo reference="${prefix}_antenna_inner_segment">
+      <material>Gazebo/Black</material>
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <joint name="${prefix}_antenna_base_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${prefix}_antenna_base_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+
+    <joint name="${prefix}_antenna_hinge_joint" type="fixed">
+      <parent link="${prefix}_antenna_base_link" />
+      <child link="${prefix}_antenna_hinge_link" />
+      <origin xyz="0 0 0.035" rpy="${angle} 0 0" />
+    </joint>
+
+    <joint name="${prefix}_antenna_inner_segment_joint" type="fixed">
+      <parent link="${prefix}_antenna_hinge_link" />
+      <child link="${prefix}_antenna_inner_segment" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <joint name="${prefix}_antenna_outer_segment_joint" type="fixed">
+      <parent link="${prefix}_antenna_hinge_link" />
+      <child link="${prefix}_antenna_outer_segment" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+  </xacro:macro>
+</robot>

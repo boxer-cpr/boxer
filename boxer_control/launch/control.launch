@@ -1,0 +1,18 @@
+<launch>
+  <arg name="serial_no"   default="$(optenv BOXER_SERIAL_NO)" />
+  <arg name="api_version" default="$(optenv BOXER_API_VERSION v1_1)" />
+
+  <rosparam command="load" file="$(find boxer_control)/config/control.yaml" />
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find boxer_control)/config/robot_localization.yaml" />
+  </node>
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+    <rosparam command="load" file="$(find boxer_control)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="/cpr_platform_api/$(arg api_version)/$(arg serial_no)/platform_control/cmd_vel"/>
+  </node>
+
+  <!-- Optionally override any previous configurations -->
+  <rosparam command="load" file="$(eval optenv('BOXER_CONTROL_EXTRAS', find('boxer_control')+'/config/empty.yaml') )" />
+</launch>

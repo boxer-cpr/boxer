@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_namespace" default="/"/>
+
+  <!-- Load Boxer description -->
+  <arg name="boxer_description" default="$(find boxer_description)/urdf/boxer.urdf.xacro"/>
+  <param name="robot_description"
+    command="$(find xacro)/xacro '$(arg boxer_description)'
+             robot_namespace:=$(arg robot_namespace)"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+</launch>

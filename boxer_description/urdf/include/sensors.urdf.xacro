@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <!-- Internal Realsense D435 (managed by the Boxer's internal ROS2 API) -->
+  <link name="front_realsense_mount_link" />
+  <joint name="front_realsense_mount_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="front_realsense_mount_link" />
+    <origin xyz="0.3524 0 0.0422" rpy="0 -0.257610597594 0" />
+  </joint>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  <xacro:sensor_d435 parent="front_realsense_mount_link" name="realsense_front_camera" use_nominal_extrinsics="true">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:sensor_d435>
+
+  <!-- Front safety sensor -->
+  <link name="front_laser">
+    <visual>
+      <geometry>
+        <mesh filename="package://boxer_description/meshes/hokuyo_uam_05lp.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <material name="Boxer_Black" />
+    </visual>
+  </link>
+  <joint name="front_laser_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="front_laser" />
+    <origin xyz="0.3062 0 0.1614" rpy="0 0 0" />
+  </joint>
+
+  <!-- Internal rear safety laser -->
+  <!-- TODO: enable a gazebo plugin for this sensor -->
+  <link name="rear_sensor">
+    <visual>
+      <geometry>
+        <mesh filename="package://boxer_description/meshes/rear_sensor.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+      <material name="Boxer_Black" />
+    </visual>
+  </link>
+  <joint name="rear_sensor_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="rear_sensor" />
+    <origin xyz="-0.3404 0.0241 0.0779" rpy="0 -0.0698131700798 ${pi}" />
+  </joint>
+
+  <!-- Cart sensor -->
+  <link name="cart_sensor"/>
+  <joint name="cart_sensor_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="cart_sensor" />
+    <origin xyz="-0.150 -0.114 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- Internal IMU -->
+  <link name="imu_link"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link"/>
+    <origin rpy="0 0 -0.78539816339744828" xyz="0.191959 -0.086412 0.18455965360"/>
+  </joint>
+</robot>

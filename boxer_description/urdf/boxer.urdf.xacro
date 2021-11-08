@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<robot name="boxer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find boxer_description)/urdf/materials.urdf.xacro"/>
+
+  <!-- The robot's origin, center-bottom of the main chassis -->
+  <link name="base_link" />
+
+  <!-- Projection of base_link on the ground to get the 3D data
+  in the right frame w.r.t the ground. -->
+  <link name="base_footprint" />
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 -0.0275" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="base_footprint" />
+  </joint>
+
+  <!-- The main chassis for the robot -->
+  <link name="chassis_link">
+    <inertial>
+      <!-- TODO inertial data copied from old boxer, may need fixing -->
+      <origin xyz="0 0 0.07" rpy="1.5708 0 0" />
+      <mass value="51"/>
+      <inertia ixx="2.3" ixy="0" ixz="0" iyy="3.35" iyz="0.00" izz="1.22"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://boxer_description/meshes/boxer24_no_sensors.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="Boxer_DarkGrey" />
+    </visual>
+    <collision>
+      <geometry>
+        <!-- For simplicity, use a box collider instead of the pretty mesh -->
+        <box size="0.74143 0.55093 0.2884" rpy="0 0 0" />
+      </geometry>
+      <origin xyz="0 0 0.1442" rpy="0 0 0" />
+    </collision>
+  </link>
+  <joint name="chassis_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="chassis_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <gazebo reference="chassis_link">
+    <visual>
+      <material>Gazebo/Orange</material>
+    </visual>
+  </gazebo>
+
+  <!-- Lift joint -->
+  <link name="lift_link" />
+  <joint name="lift_joint" type="prismatic">
+    <origin rpy="1.5708 0 0" xyz="0 0 0.177"/>
+    <parent link="chassis_link"/>
+    <child link="lift_link"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10000.0" lower="0" upper="0.084" velocity="0.02" />
+    <dynamics damping="100.0" friction="100"/>
+  </joint>
+
+  <!-- Top plate -->
+  <!--
+    TODO connect the top plate to the lift link
+    TODO separate the top plate from the lower chassis in the STL
+  -->
+  <link name="top_plate_link" />
+  <joint name="top_plate_joint" type="fixed">
+    <parent link="chassis_link" />
+    <child link="top_plate_link" />
+    <origin xyz="0 0 0.2884" rpy="0 0 0" />
+  </joint>
+
+  <!-- Backpack PC -->
+  <xacro:if value="$(optenv BOXER_PC 1)">
+    <xacro:property name="pc_model" value="$(optenv BOXER_PC_MODEL evs-2000)" />
+
+    <!-- Standard CPR backpack pc: Vecow EVS-2000 series -->
+    <xacro:if value="${pc_model == 'evs-2000'}">
+      <xacro:include filename="$(find boxer_description)/urdf/include/vecow_evs2000.urdf.xacro" />
+      <xacro:vecow_evs2000 prefix="vecow" parent="top_plate_link">
+        <origin xyz="0.0575 0 0" rpy="0 0 0" />
+      </xacro:vecow_evs2000>
+    </xacro:if>
+
+    <!-- Commercial mini-ITX motherboard with a mini case -->
+    <xacro:if value="${pc_model == 'mini-itx'}">
+      <xacro:include filename="$(find boxer_description)/urdf/include/mini_itx.urdf.xacro" />
+      <xacro:mini_itx prefix="pc" parent="top_plate_link">
+        <origin xyz="0.0575 0 0" rpy="0 0 0" />
+      </xacro:mini_itx>
+    </xacro:if>
+  </xacro:if>
+
+  <!-- Mounting points for additional payloads -->
+  <link name="mid_mount" />
+  <joint name="mid_mount_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="mid_mount" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="front_mount" />
+  <joint name="front_mount_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="front_mount" />
+    <origin xyz="0.2792 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="rear_mount" />
+  <joint name="rear_mount_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="rear_mount" />
+    <origin xyz="-0.2792 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- Include sub files -->
+  <xacro:include filename="$(find boxer_description)/urdf/include/sensors.urdf.xacro" />
+  <xacro:include filename="$(find boxer_description)/urdf/include/wheels_and_casters.urdf.xacro" />
+
+  <!-- User extensions -->
+  <xacro:include filename="$(optenv BOXER_URDF_EXTRAS empty.urdf)" />
+
+  <!-- Bring in simulation data for Gazebo. -->
+  <xacro:include filename="$(find boxer_description)/urdf/boxer.gazebo" />
+</robot>

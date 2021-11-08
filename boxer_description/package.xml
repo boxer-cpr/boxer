@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>boxer_description</name>
+  <version>0.1.0</version>
+  <description>
+    Contains the URDF description of BOXER for visualization
+    and simulation purposes.
+  </description>
+  <maintainer email="civerachb@clearpathrobotics.com">Chris Iverach-Brereton</maintainer>
+  <author email="dniewinski@clearpathrobotics.com">Dave Niewinski</author>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <exec_depend>realsense2_description</exec_depend>
+
+  <test_depend>roslaunch</test_depend>
+</package>
