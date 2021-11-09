@@ -13,6 +13,9 @@
     <remap from="cmd_vel_out" to="/cpr_platform_api/$(arg api_version)/$(arg serial_no)/platform_control/cmd_vel"/>
   </node>
 
+  <!-- Rviz interactive markers & teleop -->
+  <include file="$(find boxer_control)/launch/teleop.launch" />
+
   <!-- Optionally override any previous configurations -->
   <rosparam command="load" file="$(eval optenv('BOXER_CONTROL_EXTRAS', find('boxer_control')+'/config/empty.yaml') )" />
 </launch>
