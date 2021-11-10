@@ -1,39 +1,30 @@
 <?xml version="1.0"?>
-<robot>
-  <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/</robotNamespace>
-    </plugin>
-  </gazebo>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:arg name="robot_namespace" default="/" />
 
-  <!--
   <gazebo>
-    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
-      <robotNamespace>/</robotNamespace>
-      <updateRate>50.0</updateRate>
-      <bodyName>imu_link</bodyName>
-      <topicName>imu/data</topicName>
-      <accelDrift>0.005 0.005 0.005</accelDrift>
-      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
-      <rateDrift>0.005 0.005 0.005 </rateDrift>
-      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
-      <headingDrift>0.005</headingDrift>
-      <headingGaussianNoise>0.005</headingGaussianNoise>
+    <!-- Plugin for ros_control (actuate drive motors, lift). -->
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <robotParam>robot_description</robotParam>
     </plugin>
   </gazebo>
-  -->
 
   <gazebo reference="base_link">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
-
   <gazebo reference="chassis_link">
     <material>Gazebo/DarkGrey</material>
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
-  <!--
   <gazebo reference="imu_link">
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
-  -->
+  <gazebo reference="lift_link">
+    <kp>100</kp>
+    <kd>100</kd>
+    <mu1>100</mu1>
+    <mu2>100</mu2>
+    <minDepth>0.0</minDepth>
+  </gazebo>
 </robot>

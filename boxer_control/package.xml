@@ -14,9 +14,7 @@
   <build_depend>cmake_modules</build_depend>
   <build_depend>python3-catkin-pkg</build_depend>
 
-  <depend>cpr_common_msgs</depend>
   <depend>controller_interface</depend>
-  <depend>cpr_common_srvs</depend>
   <depend>diff_drive_controller</depend>
   <depend>nav_msgs</depend>
   <depend>boxer_msgs</depend>
@@ -37,6 +35,5 @@
   <test_depend>roslint</test_depend>
 
   <export>
-    <controller_interface plugin="${prefix}/boxer_controllers.xml"/>
   </export>
 </package>

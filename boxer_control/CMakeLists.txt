@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(boxer_control)
 
 find_package(catkin REQUIRED COMPONENTS
-  cpr_common_msgs
   controller_interface
-  cpr_common_srvs
   diff_drive_controller
   nav_msgs
   roscpp

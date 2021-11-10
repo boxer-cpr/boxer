@@ -12,6 +12,67 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:sensor_d435>
 
+  <!--
+    The D435 doesn't natively provide simulation data, so include the kinect plugin to make the sensor work
+    Note that the realsense on the Boxer via the Otto API only publishes the depth image, not pointcloud data
+
+    The gazebo kinect plugin aligns the depth data with the Z axis, with X=left and Y=up
+    ROS expects the depth data along the X axis, with Y=left and Z=up
+    This link only exists to give the gazebo plugin the correctly-oriented frame
+  -->
+  <link name="realsense_front_camera_gazebo_link" />
+  <joint name="realsense_front_camera_gazebo_joint" type="fixed">
+    <parent link="realsense_front_camera_link"/>
+    <child link="realsense_front_camera_gazebo_link"/>
+    <origin xyz="0.0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  </joint>
+  <gazebo reference="realsense_front_camera_link">
+    <turnGravityOff>true</turnGravityOff>
+    <sensor type="depth" name="realsense_front_camera">
+      <update_rate>30</update_rate>
+      <camera>
+        <!-- 75x65 degree FOV for the depth sensor -->
+        <horizontal_fov>1.5184351666666667</horizontal_fov>
+        <vertical_fov>1.0122901111111111</vertical_fov>
+
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB8</format>
+        </image>
+        <clip>
+          <!-- give the color sensor a maximum range of 50m so that the simulation renders nicely -->
+          <near>0.01</near>
+          <far>50.0</far>
+        </clip>
+      </camera>
+      <plugin name="kinect_controller" filename="libgazebo_ros_openni_kinect.so">
+        <baseline>0.2</baseline>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30</updateRate>
+        <cameraName>realsense</cameraName>
+        <imageTopicName>color/image_raw</imageTopicName>
+        <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>depth/image_rect_raw</depthImageTopicName>
+        <depthImageInfoTopicName>depth/camera_info</depthImageInfoTopicName>
+        <pointCloudTopicName>depth/color/points</pointCloudTopicName>
+        <frameName>realsense_front_camera_gazebo_link</frameName>
+        <pointCloudCutoff>0.105</pointCloudCutoff>
+        <pointCloudCutoffMax>8.0</pointCloudCutoffMax>
+        <distortionK1>0.00000001</distortionK1>
+        <distortionK2>0.00000001</distortionK2>
+        <distortionK3>0.00000001</distortionK3>
+        <distortionT1>0.00000001</distortionT1>
+        <distortionT2>0.00000001</distortionT2>
+        <CxPrime>0</CxPrime>
+        <Cx>0</Cx>
+        <Cy>0</Cy>
+        <focalLength>0</focalLength>
+        <hackBaseline>0</hackBaseline>
+      </plugin>
+    </sensor>
+  </gazebo>
+
   <!-- Front safety sensor -->
   <link name="front_laser">
     <visual>
@@ -27,9 +88,43 @@
     <child link="front_laser" />
     <origin xyz="0.3062 0 0.1614" rpy="0 0 0" />
   </joint>
+  <gazebo reference="front_laser">
+    <turnGravityOff>true</turnGravityOff>
+    <sensor type="ray" name="front_laser">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>33</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-2.35619449019</min_angle>
+            <max_angle>2.35619449019</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.5</min>
+          <max>20</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.001</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+        <topicName>front/scan</topicName>
+        <frameName>front_laser</frameName>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
 
   <!-- Internal rear safety laser -->
-  <!-- TODO: enable a gazebo plugin for this sensor -->
   <link name="rear_sensor">
     <visual>
       <geometry>
@@ -44,6 +139,40 @@
     <child link="rear_sensor" />
     <origin xyz="-0.3404 0.0241 0.0779" rpy="0 -0.0698131700798 ${pi}" />
   </joint>
+  <!-- TODO look up the actual specs for this sensor; range, FoV, samples is a complete guess right now -->
+  <gazebo reference="rear_sensor">
+    <turnGravityOff>true</turnGravityOff>
+    <sensor type="ray" name="rear_laser">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>33</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>90</samples>
+            <resolution>1</resolution>
+            <min_angle>0.785398163397</min_angle>
+            <max_angle>-0.785398163397</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.1</min>
+          <max>5</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.001</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+        <topicName>rear/scan</topicName>
+        <frameName>rear_sensor</frameName>
+        <robotNamespace>/</robotNamespace>
+      </plugin>
+    </sensor>
+  </gazebo>
 
   <!-- Cart sensor -->
   <link name="cart_sensor"/>
@@ -60,4 +189,18 @@
     <child link="imu_link"/>
     <origin rpy="0 0 -0.78539816339744828" xyz="0.191959 -0.086412 0.18455965360"/>
   </joint>
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>/</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>imu_link</bodyName>
+      <topicName>/imu/module0/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
 </robot>

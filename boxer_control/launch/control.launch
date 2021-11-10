@@ -1,8 +1,19 @@
 <launch>
   <arg name="serial_no"   default="$(optenv BOXER_SERIAL_NO)" />
   <arg name="api_version" default="$(optenv BOXER_API_VERSION v1_1)" />
+  <arg name="simulation"  default="false" />
 
   <rosparam command="load" file="$(find boxer_control)/config/control.yaml" />
+
+  <group if="$(arg simulation)">
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+      args="boxer_joint_publisher boxer_velocity_controller" />
+
+    <!-- Relay specific gazebo topics to their Boxer platform API equivalents -->
+    <node name="gazebo_cmd_vel_relay" pkg="topic_tools" type="relay"
+      args="/cpr_platform_api/$(arg api_version)/$(arg serial_no)/platform_control/cmd_vel /boxer_velocity_controller/cmd_vel" />
+    <!--<node name="gazebo_odom_relay" pkg="topic_tools" type="relay" args="/boxer_velocity_controller/odom /cpr_platform_api/$(arg api_version)/$(arg serial_no)/platform/odom" />-->
+  </group>
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
     <rosparam command="load" file="$(find boxer_control)/config/robot_localization.yaml" />
