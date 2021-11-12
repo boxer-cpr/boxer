@@ -27,6 +27,7 @@
     <origin xyz="0.0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
   </joint>
   <gazebo reference="realsense_front_camera_link">
+    <material>Gazebo/Black</material>
     <turnGravityOff>true</turnGravityOff>
     <sensor type="depth" name="realsense_front_camera">
       <update_rate>30</update_rate>
@@ -89,6 +90,7 @@
     <origin xyz="0.3062 0 0.1614" rpy="0 0 0" />
   </joint>
   <gazebo reference="front_laser">
+    <material>Gazebo/Black</material>
     <turnGravityOff>true</turnGravityOff>
     <sensor type="ray" name="front_laser">
       <pose>0 0 0 0 0 0</pose>
@@ -141,6 +143,7 @@
   </joint>
   <!-- TODO look up the actual specs for this sensor; range, FoV, samples is a complete guess right now -->
   <gazebo reference="rear_sensor">
+    <material>Gazebo/Black</material>
     <turnGravityOff>true</turnGravityOff>
     <sensor type="ray" name="rear_laser">
       <pose>0 0 0 0 0 0</pose>
