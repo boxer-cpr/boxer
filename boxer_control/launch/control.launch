@@ -1,5 +1,5 @@
 <launch>
-  <arg name="serial_no"   default="$(optenv BOXER_SERIAL_NO)" />
+  <arg name="serial_no"   default="$(optenv ROS_ROBOT_SERIAL_NO)" />
   <arg name="api_version" default="$(optenv BOXER_API_VERSION v1_1)" />
   <arg name="simulation"  default="false" />
 
