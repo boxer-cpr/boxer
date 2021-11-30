@@ -2,6 +2,35 @@
 Changelog for package boxer_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Remove the ds4drv dependency
+* Fix the diagnostic analyzer node
+* Rename BOXER_SERIAL_NO to ROS_ROBOT_SERIAL_NO to match with incoming changes to the ISO
+* Squashed commit of the following:
+  commit 1b05ec542302a034dc62f85bd28513b43ef17223
+  Author: Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+  Date:   Wed Nov 10 09:54:43 2021 -0500
+  Remove old dependencies, add the joint state controller for use inside gazebo
+  commit 6cef209cd4cef2212a11ff85a403b9408fbc9054
+  Author: Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+  Date:   Tue Nov 9 17:18:26 2021 -0500
+  Add gazebo plugin definitions for the realsense, front & rear lidars. Move the IMU configuration into the sensors file
+  commit 5141445c9a09713e9a17f0501f1805c1092c4a3b
+  Author: Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+  Date:   Tue Nov 9 17:17:36 2021 -0500
+  Adjust the velocity controller and friction properties to get the robot to steer better in gazebo when using the game controller. It's still a bit sluggish when turning, but better than it was
+  commit 8a031d0163be02efe809fb02b3ef04f5e3865ab3
+  Author: Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+  Date:   Tue Nov 9 16:07:25 2021 -0500
+  Add relays so that the twist_mux output can talk to gazebo's cmd_vel input
+  commit cdbe72bb1704d5847f1c42f5e0459d3cfa406bda
+  Author: Chris Iverach-Brereton <civerachb@clearpathrobotics.com>
+  Date:   Tue Nov 9 13:24:32 2021 -0500
+  Start progress on getting the Gazebo simulation of the new boxer to work correctly
+* Always start the teleop nodes as part of control.launch
+* Contributors: Chris Iverach-Brereton
+
 0.1.0 (2021-11-08)
 ------------------
 
