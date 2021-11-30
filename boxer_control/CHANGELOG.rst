@@ -2,6 +2,11 @@
 Changelog for package boxer_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.0 (2021-11-08)
+------------------
+
+* Initial commit of for Noetic
+
 0.0.8 (2019-08-29)
 ------------------
 
