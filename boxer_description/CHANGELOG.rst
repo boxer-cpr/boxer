@@ -2,8 +2,8 @@
 Changelog for package boxer_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2021-11-30)
+------------------
 * Add support for the ECX-1000 series vecow backpack
 * Add gazebo materials for the realsense and lidars so they don't render in pure-white inside the simulation
 * Squashed commit of the following:

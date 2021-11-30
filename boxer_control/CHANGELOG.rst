@@ -2,8 +2,8 @@
 Changelog for package boxer_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2021-11-30)
+------------------
 * Remove the ds4drv dependency
 * Fix the diagnostic analyzer node
 * Rename BOXER_SERIAL_NO to ROS_ROBOT_SERIAL_NO to match with incoming changes to the ISO
