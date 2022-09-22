@@ -79,23 +79,23 @@
     <xacro:if value="${pc_model == 'evs-2000'}">
       <xacro:include filename="$(find boxer_description)/urdf/include/vecow_evs2000.urdf.xacro" />
       <xacro:vecow_evs2000 prefix="vecow" parent="top_plate_link">
-        <origin xyz="0.0575 0 0" rpy="0 0 0" />
+        <origin xyz="$(optenv BOXER_PC_XYZ 0.0575 0 0)" rpy="$(optenv BOXER_PC_RPY 0 0 0)" />
       </xacro:vecow_evs2000>
     </xacro:if>
 
-    <!-- Alternate Vecow: ECX-1000 series -->
-    <xacro:if value="${pc_model == 'ecx-1000'}">
-      <xacro:include filename="$(find boxer_description)/urdf/include/vecow_ecx1000.urdf.xacro" />
-      <xacro:vecow_ecx1000 prefix="vecow" parent="top_plate_link">
-        <origin xyz="0.0575 0 0" rpy="0 0 0" />
-      </xacro:vecow_ecx1000>
+    <!-- Alternate Vecow: ECX-2000 series -->
+    <xacro:if value="${pc_model == 'ecx-2000'}">
+      <xacro:include filename="$(find boxer_description)/urdf/include/vecow_ecx2000.urdf.xacro" />
+      <xacro:vecow_ecx2000 prefix="vecow" parent="top_plate_link">
+        <origin xyz="$(optenv BOXER_PC_XYZ 0.0575 0 0)" rpy="$(optenv BOXER_PC_RPY 0 0 1.57)" />
+      </xacro:vecow_ecx2000>
     </xacro:if>
 
     <!-- Commercial mini-ITX motherboard with a mini case -->
     <xacro:if value="${pc_model == 'mini-itx'}">
       <xacro:include filename="$(find boxer_description)/urdf/include/mini_itx.urdf.xacro" />
       <xacro:mini_itx prefix="pc" parent="top_plate_link">
-        <origin xyz="0.0575 0 0" rpy="0 0 0" />
+        <origin xyz="$(optenv BOXER_PC_XYZ 0.0575 0 0)" rpy="$(optenv BOXER_PC_RPY 0 0 0)" />
       </xacro:mini_itx>
     </xacro:if>
   </xacro:if>
