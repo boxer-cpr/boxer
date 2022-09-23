@@ -2,8 +2,8 @@
 Changelog for package boxer_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2022-09-23)
+------------------
 * Merge pull request `#2 <https://github.com/boxer-cpr/boxer/issues/2>`_ from boxer-cpr/jyang-patch
 * Update README
 * Add BOXER_PC_XYZ and BOXER_PC_RPY envars to support relocating backpack computer in URDF

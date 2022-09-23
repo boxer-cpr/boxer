@@ -2,8 +2,8 @@
 Changelog for package boxer_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2022-09-23)
+------------------
 * Merge pull request `#1 <https://github.com/boxer-cpr/boxer/issues/1>`_ from boxer-cpr/missing-depends
   Add missing dependencies to package.xml
 * Add missing exec_depends. Should resolve the warnings with releasing cpr_gazebo
