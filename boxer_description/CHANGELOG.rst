@@ -2,6 +2,14 @@
 Changelog for package boxer_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#2 <https://github.com/boxer-cpr/boxer/issues/2>`_ from boxer-cpr/jyang-patch
+* Update README
+* Add BOXER_PC_XYZ and BOXER_PC_RPY envars to support relocating backpack computer in URDF
+* Add ECX-2000 URDF for backpack computer; removed unsupported ECX-1000
+* Contributors: Chris Iverach-Brereton, Joey Yang
+
 0.1.1 (2021-11-30)
 ------------------
 * Add support for the ECX-1000 series vecow backpack

@@ -2,6 +2,13 @@
 Changelog for package boxer_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#1 <https://github.com/boxer-cpr/boxer/issues/1>`_ from boxer-cpr/missing-depends
+  Add missing dependencies to package.xml
+* Add missing exec_depends. Should resolve the warnings with releasing cpr_gazebo
+* Contributors: Chris Iverach-Brereton, Tony Baltovski
+
 0.1.1 (2021-11-30)
 ------------------
 * Remove the ds4drv dependency
